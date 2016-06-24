@@ -94,7 +94,6 @@ class ConMan < Qt::Widget
 
   def click
     Contacts.create(:first_name => @name_text_box.text)
-    Contacts.create(:dob => @dob.text)
   end
 end
 
