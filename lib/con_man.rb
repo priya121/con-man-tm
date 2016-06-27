@@ -2,7 +2,7 @@ require 'qt'
 require 'contacts'
 
 class ConMan < Qt::Widget 
-  slots :click, :pressed, :valid_email?
+  slots :click, :pressed, :valid_email? 
 
   def initialize
     super(nil)
@@ -84,7 +84,7 @@ class ConMan < Qt::Widget
   end
 
   def click
-    Contacts.create(:first_name => find_widget("first_name").text)
+    Contacts.create(:first_name => find_widget("first_name").text, :last_name => find_widget("last_name").text, :dob => find_widget("dob").text, :telephone => find_widget("telephone").text, :email=> find_widget("email").text)
   end
 
   private

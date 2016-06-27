@@ -2,15 +2,15 @@ require 'qt'
 require 'con_man'
 
 describe ConMan do
-let (:window) {ConMan.new}
+  let (:window) {ConMan.new}
 
   before(:all) do
     Qt::Application.new(ARGV)
   end
 
-    def find_widget(name)
-      window.children.find { |child| child.object_name == name }
-    end
+  def find_widget(name)
+    window.children.find { |child| child.object_name == name }
+  end
 
   describe 'layout and fields' do
     it 'is a window' do
