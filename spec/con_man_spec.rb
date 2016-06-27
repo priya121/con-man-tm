@@ -2,14 +2,17 @@ require 'qt'
 require 'con_man'
 
 describe ConMan do
+let (:window) {ConMan.new}
+
+  before(:all) do
     Qt::Application.new(ARGV)
-    let (:window) {ConMan.new}
+  end
 
     def find_widget(name)
       window.children.find { |child| child.object_name == name }
     end
 
-  describe 'form layout' do
+  describe 'layout and fields' do
     it 'is a window' do
       expect(window).to be_kind_of(Qt::Widget)
       expect(window.parent).to be_nil
@@ -56,6 +59,15 @@ describe ConMan do
 
     it 'cancel button is set to default' do
       expect(find_widget('Cancel').isDefault).to be true
+    end
+  end
+
+  describe 'validators' do
+    it 'only allows email fields with an @ sign' do
+      email = find_widget('email')
+      email.setText('hi@me.com')
+      email.returnPressed
+      expect(window.valid_email?).to eq true 
     end
   end
 end

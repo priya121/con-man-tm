@@ -2,7 +2,7 @@ require 'qt'
 require 'contacts'
 
 class ConMan < Qt::Widget 
-  slots :click, :pressed
+  slots :click, :pressed, :valid_email?
 
   def initialize
     super(nil)
@@ -14,12 +14,13 @@ class ConMan < Qt::Widget
   end
 
   def create_fields(layout)
-    create_field("first_name", "First Name:", layout)
-    create_field("last_name", "Last Name:", layout)
-    create_field("dob", "DOB:", layout)
-    create_field("telephone", "Telephone:", layout)
-    create_field("email", "Email:", layout)
+    create_field("first_name", "First Name:", layout, @first_name)
+    create_field("last_name", "Last Name:", layout, @last_name)
+    create_field("dob", "DOB:", layout, @dob)
+    create_field("telephone", "Telephone:", layout, @tel)
+    create_field("email", "Email:", layout, @email)
     create_address(layout)
+    set_email_validator
   end
 
   def create_buttons(layout)
@@ -55,11 +56,11 @@ class ConMan < Qt::Widget
     layout
   end
 
-  def create_field(name, label, layout)
+  def create_field(name, label, layout, id)
     name_label = Qt::Label.new label
-    @name_text_box = Qt::LineEdit.new self
-    @name_text_box.object_name = name 
-    layout.addRow(name_label, @name_text_box)
+    id = Qt::LineEdit.new self
+    id.object_name = name 
+    layout.addRow(name_label, id)
   end
 
   def create_address(layout)
@@ -70,8 +71,25 @@ class ConMan < Qt::Widget
     layout.addWidget(@multi_line_text_box)
   end
 
-  def click
-    Contacts.create(:first_name => @name_text_box.text)
+  def set_email_validator
+    @sign = Qt::RegExp.new("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}")
+    validator = Qt::RegExpValidator.new(@sign, self)
+    @email = find_widget("email")
+    @email.setValidator(validator)
+    connect(@email, SIGNAL(:returnPressed), self, SLOT(:valid_email?))
   end
+
+  def valid_email?
+     @sign.exactMatch(@email.text)
+  end
+
+  def click
+    Contacts.create(:first_name => find_widget("first_name").text)
+  end
+
+  private
+    def find_widget(name)
+      self.children.find { |child| child.object_name == name }
+    end
 end
 
