@@ -14,11 +14,11 @@ class ConMan < Qt::Widget
   end
 
   def create_fields(layout)
-    create_first_name(layout)
-    create_last_name(layout)
-    create_date_field(layout)
-    create_tel_no(layout)
-    create_email(layout)
+    create_field("first_name", "First Name:", layout)
+    create_field("last_name", "Last Name:", layout)
+    create_field("dob", "DOB:", layout)
+    create_field("telephone", "Telephone:", layout)
+    create_field("email", "Email:", layout)
     create_address(layout)
   end
 
@@ -32,18 +32,18 @@ class ConMan < Qt::Widget
     connect(add_button, SIGNAL(:clicked), self, SLOT(:click))
   end
   
-  def create_field(name)
+  def create_button(name)
     button = Qt::PushButton.new(name)
     button.object_name = name 
     button
   end
 
   def create_add_button
-    create_field("Add")
+    create_button("Add")
   end
 
   def create_cancel_button
-    cancel_button = create_field("Cancel")
+    cancel_button = create_button("Cancel")
     cancel_button.setDefault(true)
     cancel_button
   end
@@ -55,32 +55,11 @@ class ConMan < Qt::Widget
     layout
   end
 
-  def create_first_name(layout)
-    name_label = Qt::Label.new "First Name:"
+  def create_field(name, label, layout)
+    name_label = Qt::Label.new label
     @name_text_box = Qt::LineEdit.new self
-    @name_text_box.object_name = "first_name"
+    @name_text_box.object_name = name 
     layout.addRow(name_label, @name_text_box)
-  end
-
-  def create_last_name(layout)
-    name_label = Qt::Label.new "Last Name:"
-    @last_name_box = Qt::LineEdit.new self
-    @last_name_box.object_name = "last_name"
-    layout.addRow(name_label, @last_name_box)
-  end
-
-  def create_tel_no(layout)
-    name_label = Qt::Label.new "Telephone:"
-    @tel_text_box = Qt::LineEdit.new self
-    @tel_text_box.object_name = "Telephone"
-    layout.addRow(name_label, @tel_text_box)
-  end
-
-  def create_date_field(layout)
-    date_label = Qt::Label.new "DOB:"
-    @dob = Qt::LineEdit.new self
-    @dob.object_name = "dob"
-    layout.addRow(date_label, @dob)
   end
 
   def create_address(layout)
@@ -89,14 +68,6 @@ class ConMan < Qt::Widget
     @multi_line_text_box.object_name = "address"
     layout.addWidget(address_label)
     layout.addWidget(@multi_line_text_box)
-  end
-
-  def create_email(layout)
-    email_label = Qt::Label.new "Email:"
-    @email = Qt::LineEdit.new self
-    reg_ex = Qt::RegExp.new("\\b(@)\\b")
-    @email.object_name = "email"
-    layout.addRow(email_label, @email)
   end
 
   def click
