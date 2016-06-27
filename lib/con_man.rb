@@ -1,5 +1,4 @@
 require 'qt'
-require 'spec_helper'
 require 'contacts'
 
 class ConMan < Qt::Widget 
@@ -15,7 +14,8 @@ class ConMan < Qt::Widget
   end
 
   def create_fields(layout)
-    create_name_field(layout)
+    create_first_name(layout)
+    create_last_name(layout)
     create_date_field(layout)
     create_tel_no(layout)
     create_email(layout)
@@ -55,11 +55,18 @@ class ConMan < Qt::Widget
     layout
   end
 
-  def create_name_field(layout)
-    name_label = Qt::Label.new "Name:"
+  def create_first_name(layout)
+    name_label = Qt::Label.new "First Name:"
     @name_text_box = Qt::LineEdit.new self
-    @name_text_box.object_name = "name"
+    @name_text_box.object_name = "first_name"
     layout.addRow(name_label, @name_text_box)
+  end
+
+  def create_last_name(layout)
+    name_label = Qt::Label.new "Last Name:"
+    @last_name_box = Qt::LineEdit.new self
+    @last_name_box.object_name = "last_name"
+    layout.addRow(name_label, @last_name_box)
   end
 
   def create_tel_no(layout)

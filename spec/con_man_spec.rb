@@ -1,5 +1,4 @@
 require 'qt'
-require 'spec_helper'
 require 'con_man'
 
 describe ConMan do
@@ -24,8 +23,12 @@ describe ConMan do
     expect(window.width).to eq(400)
   end
 
-  it 'has a name field' do 
-    expect(find_widget('name')).to be_kind_of(Qt::LineEdit)
+  it 'has a first name field' do 
+    expect(find_widget('first_name')).to be_kind_of(Qt::LineEdit)
+  end
+
+  it 'has a last name field' do 
+    expect(find_widget('last_name')).to be_kind_of(Qt::LineEdit)
   end
 
   it 'has a telephone field' do 
