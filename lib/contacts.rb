@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'spec_helper'
 require 'mysql'
 require 'active_record'
 
