@@ -36,8 +36,8 @@ describe Contacts do
     expect(name.telephone).to eq '123' 
   end
 
-  xit 'can send dob field to contacts database' do
+  it 'can send dob field to contacts database' do
     name = Contacts.find_by(dob: "1987-10-04")
-    expect(name.dob).to eq 1987-10-04
+    expect(name.dob).to eq 'Sun, 04 Oct 1987'.to_date
   end
 end
