@@ -1,11 +1,14 @@
 require 'qt'
-require 'contacts'
+require 'contacts_db'
+require 'contact'
 
-class ConMan < Qt::Widget 
-  slots :click, :pressed, :valid_email? 
+class AddContact < Qt::Widget 
+  attr_accessor :contacts_repository
+  slots :click, :pressed, :valid_email?
 
-  def initialize
+  def initialize(contacts_repository)
     super(nil)
+    @contacts_repository = contacts_repository
     self.setWindowTitle("Add Contacts")
     layout = create_window_layout
     create_fields(layout)
@@ -84,12 +87,24 @@ class ConMan < Qt::Widget
   end
 
   def click
-    Contacts.create(:first_name => find_widget("first_name").text, :last_name => find_widget("last_name").text, :dob => find_widget("dob").text, :telephone => find_widget("telephone").text, :email=> find_widget("email").text)
+    new_contact = add_contact_fields
+    @contacts_repository.add(new_contact)
   end
 
   private
     def find_widget(name)
       self.children.find { |child| child.object_name == name }
+    end
+
+    def add_contact_fields
+      contact = Contact.new
+      contact.first_name = find_widget("first_name").text
+      contact.last_name = find_widget("last_name").text
+      contact.dob = find_widget("dob").text
+      contact.telephone = find_widget("telephone").text
+      contact.email = find_widget("email").text
+      contact.address = find_widget("address").toPlainText
+      contact
     end
 end
 

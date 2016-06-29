@@ -1,8 +1,10 @@
 require 'qt'
-require 'con_man'
+require 'spec_helper'
+require 'add_contact'
 
-describe ConMan do
-  let (:window) {ConMan.new}
+describe AddContact do
+  let (:repository) {ArrayContactsRepository.new}
+  let (:window) {AddContact.new(repository)}
 
   before(:all) do
     Qt::Application.new(ARGV)
@@ -70,6 +72,12 @@ describe ConMan do
       expect(window.valid_email?).to eq true 
     end
   end
+
+  describe 'creates a contact' do
+    it 'allows a user to create a contact' do
+      find_widget('first_name').set_text("Priya")
+      find_widget("Add").click
+      expect(window.contacts_repository.get_all.size).to eq 1
+    end
+  end
 end
-
-
