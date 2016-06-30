@@ -1,8 +1,10 @@
 require 'qt'
-require 'con_man'
+require 'spec_helper'
+require 'add_contact_window'
 
-describe ConMan do
-  let (:window) {ConMan.new}
+describe AddContactWindow do
+  let (:repository) {InMemoryContactsRepository.new}
+  let (:window) {AddContactWindow.new(repository)}
 
   before(:all) do
     Qt::Application.new(ARGV)
@@ -69,7 +71,22 @@ describe ConMan do
       email.returnPressed
       expect(window.valid_email?).to eq true 
     end
+
+    it 'only allows a valid date to be entered' do 
+      expect(window.validate("01-10-2006")).to eq "01.10.2006".to_date
+    end
+
+    it 'shows error message when invalid date entered' do
+      expect(window.validate("01102006")).to eq "invalid date"
+    end
+  end
+
+  describe 'creates a contact' do
+    it 'allows a user to create a contact' do
+      find_widget('first_name').set_text("Priya")
+      find_widget('last_name').set_text("Patil")
+      find_widget("Add").click
+      expect(window.contacts_repository.get_all.size).to eq 1
+    end
   end
 end
-
-

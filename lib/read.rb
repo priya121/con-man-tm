@@ -1,3 +1,0 @@
-class Read
-
-end
