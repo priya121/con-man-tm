@@ -1,11 +1,11 @@
-require 'view_contacts'
-require 'array_contacts_repository'
+require 'view_contacts_window'
+require 'in_memory_contacts_repository'
 require 'spec_helper'
 
-describe ViewContacts do
+describe ViewContactsWindow do
   Qt::Application.new(ARGV)
-  repository = ArrayContactsRepository.new
-  window = ViewContacts.new(repository)
+  repository = InMemoryContactsRepository.new
+  window = ViewContactsWindow.new(repository)
 
   describe 'layout' do 
 
@@ -19,7 +19,7 @@ describe ViewContacts do
     end
 
     it 'has access to a repository' do
-      expect(window.repository).to be_a_kind_of(ArrayContactsRepository)
+      expect(window.repository).to be_a_kind_of(InMemoryContactsRepository)
     end
   end
 end

@@ -1,4 +1,4 @@
-class ArrayContactsRepository 
+class InMemoryContactsRepository 
 
   attr_accessor :contacts_list 
 

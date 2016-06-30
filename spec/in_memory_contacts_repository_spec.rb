@@ -1,8 +1,8 @@
-require 'array_contacts_repository'
+require 'in_memory_contacts_repository'
 require 'spec_helper'
 
-describe ArrayContactsRepository do
-  let (:repository) {ArrayContactsRepository.new}
+describe InMemoryContactsRepository do
+  let (:repository) {InMemoryContactsRepository.new}
   let (:contact) {Contact.new}
 
   it 'holds a contact as an array' do

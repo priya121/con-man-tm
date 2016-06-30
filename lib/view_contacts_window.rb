@@ -1,4 +1,4 @@
-class ViewContacts < Qt::Widget
+class ViewContactsWindow < Qt::Widget
 
   attr_accessor :repository
 

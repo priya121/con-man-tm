@@ -1,8 +1,8 @@
 require 'qt'
-require 'contacts_db'
+require 'contacts'
 require 'contact'
 
-class AddContact < Qt::Widget 
+class AddContactWindow < Qt::Widget 
   attr_accessor :contacts_repository
   slots :click, :pressed, :valid_email?
 

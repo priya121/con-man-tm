@@ -1,10 +1,10 @@
 require 'qt'
 require 'spec_helper'
-require 'add_contact'
+require 'add_contact_window'
 
-describe AddContact do
-  let (:repository) {ArrayContactsRepository.new}
-  let (:window) {AddContact.new(repository)}
+describe AddContactWindow do
+  let (:repository) {InMemoryContactsRepository.new}
+  let (:window) {AddContactWindow.new(repository)}
 
   before(:all) do
     Qt::Application.new(ARGV)
