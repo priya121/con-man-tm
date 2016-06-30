@@ -1,7 +1,14 @@
-class Contact
+require 'rubygems'
+require 'mysql'
+require 'active_record'
 
-  attr_accessor :first_name, :last_name, :dob, :telephone, :email, :address
+ActiveRecord::Base.establish_connection(
+  :adapter => "mysql",
+  :host => "localhost",
+  :database => "contacts"
+)
 
+class Contact < ActiveRecord::Base
   def name
     first_name + " " + last_name
   end

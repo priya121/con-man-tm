@@ -11,7 +11,8 @@ describe SQLContactsRepository do
                               "04.10.1901", 
                               "123", 
                               "priya@gmail.com", 
-                              "2 Cedar Way")
+                              "2 Cedar Way",
+                               0)
     @repository.add(@contact)
   end
 
@@ -27,9 +28,14 @@ describe SQLContactsRepository do
     expect(@repository.number_of_contacts).to eq 0
   end
 
+  it 'can find all contacts' do
+    @repository.add(@contact)
+    expect(@repository.get_all.size).to eq 1 
+  end
+
   private
 
-  def create_contact(first_name, last_name, dob, telephone, email, address)
+  def create_contact(first_name, last_name, dob, telephone, email, address, id)
     contact = Contact.new
     contact.first_name = first_name 
     contact.last_name = last_name 
@@ -37,6 +43,7 @@ describe SQLContactsRepository do
     contact.telephone = telephone 
     contact.email = email 
     contact.address = address 
+    contact.id = id
     contact
   end
 end

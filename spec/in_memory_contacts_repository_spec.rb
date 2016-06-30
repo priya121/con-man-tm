@@ -1,8 +1,8 @@
-require 'array_contacts_repository'
+require 'in_memory_contacts_repository'
 require 'spec_helper'
 
-describe ArrayContactsRepository do
-  let (:repository) {ArrayContactsRepository.new}
+describe InMemoryContactsRepository do
+  let (:repository) {InMemoryContactsRepository.new}
   let (:contact) {Contact.new}
 
   it 'holds a contact as an array' do
@@ -14,4 +14,11 @@ describe ArrayContactsRepository do
     repository.add(contact)
     expect(repository.get_all.size).to eq 1
   end
+
+  it 'can delete a contact' do
+    repository.add(contact)
+    repository.delete(contact)
+    expect(repository.get_all.size).to eq 0
+  end
 end
+
