@@ -21,5 +21,4 @@ describe ViewContacts do
     it 'has access to a repository' do
       expect(window.repository).to be_a_kind_of(ArrayContactsRepository)
     end
-  end
 end

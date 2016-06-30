@@ -17,10 +17,4 @@ class ArrayContactsRepository
   def get_all
     @contacts_list
   end
-
-  def delete(contact)
-    if found(contact) 
-      @contacts_list.delete(contact)
-    end
-  end
 end

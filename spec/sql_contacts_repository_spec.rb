@@ -27,10 +27,6 @@ describe SQLContactsRepository do
     expect(@repository.number_of_contacts).to eq 0
   end
 
-  it 'can find all contacts' do
-    expect(@repository.get_all.size).to eq 1
-  end
-
   private
 
   def create_contact(first_name, last_name, dob, telephone, email, address)

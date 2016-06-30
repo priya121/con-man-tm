@@ -22,8 +22,4 @@ class SQLContactsRepository
   def number_of_contacts 
     Contacts.count
   end
-
-  def get_all
-    [] << Contacts.find_each
-  end
 end
