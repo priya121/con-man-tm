@@ -22,7 +22,7 @@ describe Contact do
 
   it 'has a dob' do
     contact.dob = "04.10.1901"
-    expect(contact.dob).to eq "04.10.1901"
+    expect(contact.dob).to eq "04.10.1901".to_date
   end
 
   it 'has a telephone number' do

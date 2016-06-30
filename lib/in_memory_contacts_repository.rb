@@ -7,6 +7,7 @@ class InMemoryContactsRepository
   end
 
   def add(contact)
+    contact.id = @contacts_list.size
     @contacts_list << contact
   end
 

@@ -3,6 +3,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'add_contact_window'
+require 'view_contacts_window'
 require 'sql_contacts_repository'
 require 'qt'
 
