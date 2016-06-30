@@ -1,14 +1,14 @@
 require 'qt'
-require 'contacts_db'
 require 'contact'
 
-class AddContact < Qt::Widget 
+class AddContactWindow < Qt::Widget 
   attr_accessor :contacts_repository
-  slots :click, :pressed, :valid_email?
+  slots :click, :pressed, :valid_email?, "when_changed(QString)"
 
   def initialize(contacts_repository)
     super(nil)
     @contacts_repository = contacts_repository
+    @contact = Contact.new
     self.setWindowTitle("Add Contacts")
     layout = create_window_layout
     create_fields(layout)
@@ -19,7 +19,7 @@ class AddContact < Qt::Widget
   def create_fields(layout)
     create_field("first_name", "First Name:", layout, @first_name)
     create_field("last_name", "Last Name:", layout, @last_name)
-    create_field("dob", "DOB:", layout, @dob)
+    create_field("dob", "DOB:\n(YYYY-DD-MM)", layout, @dob)
     create_field("telephone", "Telephone:", layout, @tel)
     create_field("email", "Email:", layout, @email)
     create_address(layout)
@@ -63,7 +63,13 @@ class AddContact < Qt::Widget
     name_label = Qt::Label.new label
     id = Qt::LineEdit.new self
     id.object_name = name 
+    connect(id, SIGNAL("textChanged(QString)"), self, SLOT("when_changed(QString)"))
     layout.addRow(name_label, id)
+  end
+
+  def when_changed(text)
+    sender.text = text 
+    add_fields
   end
 
   def create_address(layout)
@@ -86,25 +92,34 @@ class AddContact < Qt::Widget
      @sign.exactMatch(@email.text)
   end
 
+  def validate(date)
+    begin 
+      Date.parse(date)
+    rescue 
+       message_box = Qt::MessageBox.new
+       message_box.text = "This date is invalid, please re-enter a valid date."
+       message_box.show
+      "invalid date"
+    end
+  end
+
   def click
-    new_contact = add_contact_fields
-    @contacts_repository.add(new_contact)
+    validate(@contact.dob)
+    @contact.address = find_widget("address").toPlainText
+    @contacts_repository.add(@contact)
   end
 
   private
-    def find_widget(name)
-      self.children.find { |child| child.object_name == name }
-    end
 
-    def add_contact_fields
-      contact = Contact.new
-      contact.first_name = find_widget("first_name").text
-      contact.last_name = find_widget("last_name").text
-      contact.dob = find_widget("dob").text
-      contact.telephone = find_widget("telephone").text
-      contact.email = find_widget("email").text
-      contact.address = find_widget("address").toPlainText
-      contact
-    end
+  def find_widget(name)
+    self.children.find { |child| child.object_name == name }
+  end
+
+  def add_fields
+    @contact.first_name = find_widget("first_name").text
+    @contact.last_name = find_widget("last_name").text
+    @contact.dob = find_widget("dob").text
+    @contact.telephone = find_widget("telephone").text
+    @contact.email = find_widget("email").text
+  end
 end
-

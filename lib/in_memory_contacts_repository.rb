@@ -1,4 +1,4 @@
-class ArrayContactsRepository 
+class InMemoryContactsRepository 
 
   attr_accessor :contacts_list 
 
@@ -7,6 +7,7 @@ class ArrayContactsRepository
   end
 
   def add(contact)
+    contact.id = @contacts_list.size
     @contacts_list << contact
   end
 
