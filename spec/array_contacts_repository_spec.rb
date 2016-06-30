@@ -14,4 +14,11 @@ describe ArrayContactsRepository do
     repository.add(contact)
     expect(repository.get_all.size).to eq 1
   end
+
+  it 'can delete a contact' do
+    repository.add(contact)
+    repository.delete(contact)
+    expect(repository.get_all.size).to eq 0
+  end
 end
+
