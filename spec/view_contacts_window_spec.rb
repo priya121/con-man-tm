@@ -5,9 +5,6 @@ require 'spec_helper'
 describe ViewContactsWindow do
   Qt::Application.new(ARGV)
   repository = InMemoryContactsRepository.new
-  contact = Contact.new
-  contact.first_name = "Priya"
-  repository.add(contact)
   window = ViewContactsWindow.new(repository)
 
   describe 'layout' do 
@@ -26,16 +23,26 @@ describe ViewContactsWindow do
     end
 
     it 'has three rows' do
-      expect(window.find_child(Qt::TableWidget, "Table").rowCount).to eq 3
+      expect(window.find_child(Qt::TableWidget, "Table").rowCount).to eq 20 
       expect(window.find_child(Qt::TableWidget, "Table").columnCount).to eq 3
     end
 
+    it 'can show an empty contacts list' do
+      expect(window.find_child(Qt::TableWidget, "Table").takeItem(0,0)).to eq nil
+    end
+
     it 'can access a contact to display' do
+      contact = Contact.new
+      contact.first_name = "Priya"
       window.repository.add(contact)
       expect(window.repository.get_all[0].first_name).to eq("Priya")
     end
 
     it 'has a contact on the first row' do
+      contact = Contact.new
+      contact.first_name = "Priya"
+      window.repository.add(contact)
+      window = ViewContactsWindow.new(repository)
       expect(window.find_child(Qt::TableWidget, "Table").takeItem(0,0).text).to include "Priya"
     end
   end
