@@ -8,6 +8,8 @@ ActiveRecord::Base.establish_connection(
   :database => "contacts"
 )
 
-class Contacts < ActiveRecord::Base
+class Contact < ActiveRecord::Base
+  def name
+    first_name + " " + last_name
+  end
 end
-
